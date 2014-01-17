@@ -78,12 +78,25 @@ abstract class CVar(name: String) extends AbstractVar(name) {
 
   def unary_-(): LinearExpression = this * -1d
   def :<=(rhs: Double) = new LinearInequality(this.toExpr *= -1 += rhs)
+  def :<=(rhs: Double, s: Strength) = new LinearInequality(this.toExpr *= -1 += rhs, s)
+
   def :>=(rhs: Double) = new LinearInequality(this.toExpr -= rhs)
+  def :>=(rhs: Double, s: Strength) = new LinearInequality(this.toExpr -= rhs, s)
+
   def :<=(rhs: CVar) = new LinearInequality(rhs.toExpr -= this)
+  def :<=(rhs: CVar, s: Strength) = new LinearInequality(rhs.toExpr -= this, s)
+
   def :>=(rhs: CVar) = new LinearInequality(this.toExpr -= rhs)
+  def :>=(rhs: CVar, s: Strength) = new LinearInequality(this.toExpr -= rhs, s)
+
   def :==(rhs: Double) = new LinearEquation(-this += rhs)
+  def :==(rhs: Double, s: Strength) = new LinearEquation(-this += rhs, s)
+
   def :==(rhs: CVar) = new LinearEquation(-this += rhs)
+  def :==(rhs: CVar, s: Strength) = new LinearEquation(-this += rhs, s)
+
   def :==(rhs: LinearExpression) = new LinearEquation(-this += rhs)
+  def :==(rhs: LinearExpression,  s: Strength) = new LinearEquation(-this += rhs, s)
 
   override def toString: String = "[" + name + "=" + value + "]"
 }
