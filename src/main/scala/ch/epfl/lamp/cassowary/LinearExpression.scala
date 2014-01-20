@@ -51,17 +51,7 @@ final class LinearExpression(var constant: Double, val terms: TermsBuffer) {
     e
   }
 
-  def +=(k: Double): this.type = {
-    constant += k
-    this
-  }
-
   def unary_-(): LinearExpression = this.clone *= -1
-
-  def -=(k: Double): this.type = {
-    constant -= k
-    this
-  }
 
   def +(expr: LinearExpression): LinearExpression =
     clone.addExpression(expr, 1.0)
@@ -111,16 +101,19 @@ final class LinearExpression(var constant: Double, val terms: TermsBuffer) {
     this
   }
 
+  def +=(k: Double): this.type = { constant += k; this }
+
+  def +=(v: AbstractVar): this.type = this += (v, 1d)
+
   def +=(expr: LinearExpression): this.type = addExpression(expr, 1.0)
 
-  def +=(v: AbstractVar): this.type =
-    this += (v, 1d)
+  def +=(v: AbstractVar, c: Double): this.type = this += (v, c, null, null)
 
-  def -=(v: AbstractVar): this.type =
-    this += (v, -1d)
+  def -=(k: Double): this.type = { constant -= k; this }
 
-  def +=(v: AbstractVar, c: Double): this.type =
-    this += (v, c, null, null)
+  def -=(v: AbstractVar): this.type = this += (v, -1d)
+
+  def -=(expr: LinearExpression): this.type = addExpression(expr, -1.0)
 
   def addVariable(v: AbstractVar, c: Double, subject: AbstractVar, solver: Tableau): this.type =
     this += (v, c, subject, solver)

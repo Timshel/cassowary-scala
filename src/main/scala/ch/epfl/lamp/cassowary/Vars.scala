@@ -72,8 +72,12 @@ abstract class CVar(name: String) extends AbstractVar(name) {
 
   def +(d: Double) = this.toExpr += d
   def +(v: CVar) = this.toExpr += v
+  def +(e: LinearExpression) = this.toExpr += e
+
   def -(d: Double) = this.toExpr -= d
   def -(v: CVar) = this.toExpr -= v
+  def -(e: LinearExpression) = this.toExpr -= e
+
   def *(d: Double) = new LinearExpression(this, d, 0)
 
   def unary_-(): LinearExpression = this * -1d
