@@ -9,28 +9,21 @@
  */
 package ch.epfl.lamp
 
-import scala.annotation.elidable
+import org.slf4j.{Logger, LoggerFactory};
 
 package object cassowary {
   private[cassowary] val debug = false
+  private val logger = LoggerFactory.getLogger("ch.epfl.lamp.cassowary")
 
   def varsCreated = AbstractVar.iVariableNumber
 
-  @elidable(elidable.ALL) def debugprint(s: =>String) {
-    Console.err.println(s)
-  }
+  def debugprint(s: => String) = logger.debug(s)
 
-  @elidable(elidable.ALL) def traceprint(s: =>String) {
-    Console.err.println(s)
-  }
+  def traceprint(s: => String) = logger.debug(s)
 
-  @elidable(elidable.ALL) def fnenterprint(s: =>String) {
-    Console.err.println("* " + s)
-  }
+  def fnenterprint(s: => String) = logger.debug("* " + s)
 
-  @elidable(elidable.ALL) def fnexitprint(s: =>String) {
-    Console.err.println("- " + s)
-  }
+  def fnexitprint(s: => String) = logger.debug("- " + s)
 
   sealed abstract class Op
 
